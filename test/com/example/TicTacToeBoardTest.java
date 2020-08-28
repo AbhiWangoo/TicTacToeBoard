@@ -4,6 +4,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class TicTacToeBoardTest {
+  // NO JAVADOC
   @Test
   public void testValidBoardNoWinner() { // Given Test
     TicTacToeBoard board = new TicTacToeBoard("O...X.X..");
@@ -12,13 +13,13 @@ public class TicTacToeBoardTest {
 
   @Test
   public void testXWins() { //tests standard case, and case insensitivity
-    TicTacToeBoard board = new TicTacToeBoard("XXX..x.OX");
+    TicTacToeBoard board = new TicTacToeBoard("XxX..x.OX");
     assertEquals(Evaluation.Xwins, board.evaluate());
   }
 
   @Test
   public void testOWins() { //tests standard case, and case insensitivity
-    TicTacToeBoard board = new TicTacToeBoard("ooOX..X.x");
+    TicTacToeBoard board = new TicTacToeBoard("oOoX..X.x");
     assertEquals(Evaluation.Owins, board.evaluate());
   }
 
