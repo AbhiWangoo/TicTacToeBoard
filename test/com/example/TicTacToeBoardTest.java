@@ -13,7 +13,7 @@ public class TicTacToeBoardTest {
 
   @Test
   public void testXWins() { //tests standard case, and case insensitivity
-    TicTacToeBoard board = new TicTacToeBoard("XxX..x.OX");
+    TicTacToeBoard board = new TicTacToeBoard("Xo..xo.OX");
     assertEquals(Evaluation.Xwins, board.evaluate());
   }
 
