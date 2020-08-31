@@ -4,32 +4,44 @@ import java.util.*;
  * Takes in and evaluates a string representing a tic tac toe board.
  */
 public class TicTacToeBoard {
-  private final String[][] boardArray;
+  private String[][] boardArray; // not final in case it needs to be made null
   private static int dimension;
+  private String winner;
   /**
    * This method should load a string into your TicTacToeBoard class.
    * @param board The string representing the board
    */
   public TicTacToeBoard(String board) {
+    winner = "";
     dimension = 3;
     int stringIndex = 0;
     boardArray = new String[dimension][dimension];
-    for(int i = 0; i < dimension;i++){
-      for(int j = 0;j < dimension;j++){
-        boardArray[i][j] = board.substring(stringIndex,stringIndex+1);
-        stringIndex++;
+
+    if(!IsValidBoard(board))
+      winner = "US"; // US=Unreachable state
+    else{
+      System.out.println("conversion to array running");
+      for (int i = 0; i < dimension; i++) {
+        for (int j = 0; j < dimension; j++) {
+          boardArray[i][j] = board.substring(stringIndex, stringIndex + 1);
+          System.out.println(boardArray[i][j]);
+          stringIndex++;
+        }
       }
     }
-  } //MAYBE NEEDS TO BE DONE DELETE THIS COMMENT BEFORE YOU SUBMIT
 
+  }
   /**
    * Checks the state of the board (unreachable, no winner, X wins, or O wins)
    * @return an enum value corresponding to the board evaluation
    */
-  //JAVADOC
   public Evaluation evaluate() {
-    String winner = "No Winner";
+    // Unreachable check
+    if(winner.compareTo("US") == 0 || boardArray == null){
+      return Evaluation.UnreachableState;
+    }
 
+    // Row and column checks
     for(int i = 0; i < 3 ; i++){
       if(CheckRow(boardArray, i)) { // Checks row victory
         winner = boardArray[i][0];
@@ -52,9 +64,6 @@ public class TicTacToeBoard {
       case("o"):
         return Evaluation.Owins;
 
-      case("Unreachable State"):
-        return Evaluation.UnreachableState;
-
       default:
         return Evaluation.NoWinner;
     }
@@ -68,6 +77,8 @@ public class TicTacToeBoard {
    * @return boolean for a match in the row or column
    */
   private boolean CheckRow(String[][] board,int row){ // check to see if there is a matching row or column
+    if(board[row][0].toLowerCase().compareTo("x") != 0 && board[row][0].toLowerCase().compareTo("o") != 0)
+      return false;
     for(int i = 0 ; i < board.length-1 ; i ++) {
       if(board[row][i].toLowerCase().compareTo(board[row][i+1].toLowerCase()) != 0)
         return false;
@@ -81,6 +92,8 @@ public class TicTacToeBoard {
    * @return boolean for a match in the row or column
    */
   private boolean CheckCol(String[][] board, int col){ // check to see if there is a matching row or column
+    if(board[0][col].toLowerCase().compareTo("x") != 0 && board[0][col].toLowerCase().compareTo("o") != 0)
+      return false;
     for(int i = 0 ; i < board[col].length-1 ; i ++) {
       if(board[i][col].toLowerCase().compareTo(board[i+1][col].toLowerCase()) != 0)
         return false;
@@ -93,6 +106,8 @@ public class TicTacToeBoard {
    * @return String when the match is required
    */
   private boolean CheckLeftDiagonal(String[][] board){
+    if(board[0][0].toLowerCase().compareTo("x") != 0 && board[0][0].toLowerCase().compareTo("o") != 0)
+      return false;
     for(int i = 0; i < dimension-1;i++){
       if(board[i][i].toLowerCase().compareTo(board[i+1][i+1].toLowerCase()) != 0) // left to right diagonal
         return false;
@@ -105,10 +120,31 @@ public class TicTacToeBoard {
    * @return String when the match is required
    */
   private boolean CheckRightDiagonal(String[][] board){
+    if(board[0][dimension-1].toLowerCase().compareTo("x") != 0 && board[0][dimension-1].toLowerCase().compareTo("o") != 0)
+      return false;
     for(int i = 0; i < dimension-1;i++){
       if(board[i][dimension-i-1].toLowerCase().compareTo(board[i+1][dimension-i-2].toLowerCase()) != 0) // right to left diagonal
         return false;
     }
     return true;
+  }
+  /**
+   * private helper method to aide in evaluate(), lower space complexity and
+   * time complexity for traversal of string
+   * @param board represents boardArray reference
+   * @return String when the match is required
+   */
+  private boolean IsValidBoard(String board){
+    if(board.length() != dimension*dimension || board == null)
+      return false;
+    int xCount = 0; // number of x values in the string
+    int oCount = 0; // number of x values in the string
+    for(int i = 0; i <board.length();i++){
+      if(board.substring(i,i+1).toLowerCase().compareTo("x") == 0)
+        xCount++;
+      else if (board.substring(i,i+1).toLowerCase().compareTo("o") == 0)
+        oCount++;
+    }
+    return (xCount - oCount == 0 || xCount - oCount == 1);
   }
 }
