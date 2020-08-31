@@ -23,7 +23,7 @@ public class TicTacToeBoard {
 
 
         if (!IsValidBoard(board))
-            winner = "US"; // US=Unreachable state
+            winner = "US"; // US == Unreachable state
         else {
             for (int i = 0; i < dimension; i++) {
                 for (int j = 0; j < dimension; j++) {
@@ -87,9 +87,10 @@ public class TicTacToeBoard {
      * @param board represents boardArray reference
      * @return boolean for a match in the row or column
      */
-    private boolean CheckRow(String[][] board, int row) { // check to see if there is a matching row or column
+    private boolean CheckRow(String[][] board, int row) { // check to see if there is a matching row
         if (board[row][0].toLowerCase().compareTo("x") != 0 && board[row][0].toLowerCase().compareTo("o") != 0)
-            return false;
+            return false; // Checks for either x or o at beginning of row
+
         for (int i = 0; i < board.length - 1; i++) {
             if (board[row][i].toLowerCase().compareTo(board[row][i + 1].toLowerCase()) != 0)
                 return false;
@@ -104,9 +105,10 @@ public class TicTacToeBoard {
      * @param board represents boardArray reference
      * @return boolean for a match in the row or column
      */
-    private boolean CheckCol(String[][] board, int col) { // check to see if there is a matching row or column
+    private boolean CheckCol(String[][] board, int col) { // check to see if there is a matching column
         if (board[0][col].toLowerCase().compareTo("x") != 0 && board[0][col].toLowerCase().compareTo("o") != 0)
-            return false;
+            return false; // Checks for either x or o at beginning of column
+
         for (int i = 0; i < board[col].length - 1; i++) {
             if (board[i][col].toLowerCase().compareTo(board[i + 1][col].toLowerCase()) != 0)
                 return false;
@@ -120,11 +122,12 @@ public class TicTacToeBoard {
      * @param board represents boardArray reference
      * @return String when the match is required
      */
-    private boolean CheckLeftDiagonal(String[][] board) {
+    private boolean CheckLeftDiagonal(String[][] board) { // Checks diagonal from the upper left to bottom right
         if (board[0][0].toLowerCase().compareTo("x") != 0 && board[0][0].toLowerCase().compareTo("o") != 0)
-            return false;
+            return false; // Checks for either x or o at beginning of left diagonal
+
         for (int i = 0; i < dimension - 1; i++) {
-            if (board[i][i].toLowerCase().compareTo(board[i + 1][i + 1].toLowerCase()) != 0) // left to right diagonal
+            if (board[i][i].toLowerCase().compareTo(board[i + 1][i + 1].toLowerCase()) != 0)
                 return false;
         }
         return true;
@@ -136,11 +139,12 @@ public class TicTacToeBoard {
      * @param board represents boardArray reference
      * @return String when the match is required
      */
-    private boolean CheckRightDiagonal(String[][] board) {
+    private boolean CheckRightDiagonal(String[][] board) { // Checks diagonal from the upper right to bottom left
         if (board[0][dimension - 1].toLowerCase().compareTo("x") != 0 && board[0][dimension - 1].toLowerCase().compareTo("o") != 0)
-            return false;
+            return false; // Checks for either x or o at beginning of right diagonal
+
         for (int i = 0; i < dimension - 1; i++) {
-            if (board[i][dimension - i - 1].toLowerCase().compareTo(board[i + 1][dimension - i - 2].toLowerCase()) != 0) // right to left diagonal
+            if (board[i][dimension - i - 1].toLowerCase().compareTo(board[i + 1][dimension - i - 2].toLowerCase()) != 0)
                 return false;
         }
         return true;
@@ -153,9 +157,10 @@ public class TicTacToeBoard {
      * @param board represents boardArray reference
      * @return String when the match is required
      */
-    private boolean IsValidBoard(String board) {
+    private boolean IsValidBoard(String board) { // Checks validity of board as a Tic-Tac-Toe dimension by dimension
         if (board == null || board.length() != dimension * dimension)
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(); // checks correct String state
+
         int xCount = 0; // number of x values in the string
         int oCount = 0; // number of x values in the string
         for (int i = 0; i < board.length(); i++) {
@@ -164,6 +169,7 @@ public class TicTacToeBoard {
             else if (board.substring(i, i + 1).toLowerCase().compareTo("o") == 0)
                 oCount++;
         }
+        // returning whether there are either 1 or 0 more X values in the String than O values
         return (xCount - oCount == 0 || xCount - oCount == 1);
     }
 }
