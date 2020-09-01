@@ -6,6 +6,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class TicTacToeBoardTest {
+
     // UnreachableState cases
     @Test
     public void testUnreachableBoard() { //tests unreachable statement case, and case insensitivity
@@ -125,6 +126,12 @@ public class TicTacToeBoardTest {
     @Test
     public void testValidBoardNoWinner() { // Tests board without winner
         TicTacToeBoard board = new TicTacToeBoard("O...X.X..");
+        assertEquals(Evaluation.NoWinner, board.evaluate());
+    }
+
+    @Test
+    public void testValidBoardEmpty() { // Tests board without winner
+        TicTacToeBoard board = new TicTacToeBoard("....--.--");
         assertEquals(Evaluation.NoWinner, board.evaluate());
     }
 

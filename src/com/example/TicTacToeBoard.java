@@ -7,11 +7,11 @@ import java.util.*;
  */
 public class TicTacToeBoard {
     private final String[][] BOARDARRAY; // not final in case it needs to be made null
-    private static int dimension;
+    private static int dimension; // board size specification
     private String winner;
 
     /**
-     * This method should load a string into your TicTacToeBoard class.
+     * This method loads a string into your TicTacToeBoard class.
      *
      * @param board The string representing the board
      */
@@ -22,7 +22,7 @@ public class TicTacToeBoard {
         BOARDARRAY = new String[dimension][dimension];
 
 
-        if (!IsValidBoard(board))
+        if (!isValidBoard(board))
             winner = "US"; // US == Unreachable state
         else {
             for (int i = 0; i < dimension; i++) {
@@ -42,27 +42,27 @@ public class TicTacToeBoard {
      */
     public Evaluation evaluate() {
         // Unreachable check
-        if (winner.compareTo("US") == 0 || BOARDARRAY == null) {
+        if (winner.compareTo("US") == 0) {
             return Evaluation.UnreachableState;
         }
 
         // Row and column checks
         for (int i = 0; i < 3; i++) {
-            if (CheckRow(BOARDARRAY, i)) { // Checks row victory
+            if (checkRow(BOARDARRAY, i)) { // Checks row victory
                 winner += BOARDARRAY[i][0];
-            } else if (CheckCol(BOARDARRAY, i)) { // Checks column victory
+            } else if (checkCol(BOARDARRAY, i)) { // Checks column victory
                 winner += BOARDARRAY[0][i];
             }
         }
 
         // Diagonals Check
-        if (CheckLeftDiagonal(BOARDARRAY))
+        if (checkLeftDiagonal(BOARDARRAY))
             winner = BOARDARRAY[0][0];
-        else if (CheckRightDiagonal(BOARDARRAY))
+        else if (checkRightDiagonal(BOARDARRAY))
             winner = BOARDARRAY[0][dimension - 1];
 
         // Conversion of winner variable to Evaluation enum type
-        if(winner.length() > 1) // if multiple winners, its an unreachable state
+        if (winner.length() > 1) // if multiple winners, its an unreachable state
             return Evaluation.UnreachableState;
         switch (winner.toLowerCase()) {
             case ("x"):
@@ -79,13 +79,14 @@ public class TicTacToeBoard {
     // helper functions below
 
     /**
-     * private helper method to aide in evaluate().
+     * private helper method to aide in evaluate(), checks to see whether entire row
+     * in String[][] board is the same value
      *
      * @param row   represents index for row to check for matching values
      * @param board represents BOARDARRAY reference
      * @return boolean for a match in the row or column
      */
-    private boolean CheckRow(String[][] board, int row) { // check to see if there is a matching row
+    private boolean checkRow(String[][] board, int row) {
         if (board[row][0].toLowerCase().compareTo("x") != 0 && board[row][0].toLowerCase().compareTo("o") != 0)
             return false; // Checks for either x or o at beginning of row
 
@@ -97,13 +98,14 @@ public class TicTacToeBoard {
     }
 
     /**
-     * private helper method to aide in evaluate().
+     * private helper method to aide in evaluate(), checks to see whether entire column
+     * in String[][] board is the same value
      *
      * @param col   represents index for column to check for matching values
      * @param board represents BOARDARRAY reference
      * @return boolean for a match in the row or column
      */
-    private boolean CheckCol(String[][] board, int col) { // check to see if there is a matching column
+    private boolean checkCol(String[][] board, int col) {
         if (board[0][col].toLowerCase().compareTo("x") != 0 && board[0][col].toLowerCase().compareTo("o") != 0)
             return false; // Checks for either x or o at beginning of column
 
@@ -115,12 +117,13 @@ public class TicTacToeBoard {
     }
 
     /**
-     * private helper method to aide in evaluate().
+     * private helper method to aide in evaluate(), checks to see whether entire left to right
+     * diagonal of String[][] board has equal values
      *
      * @param board represents BOARDARRAY reference
      * @return String when the match is required
      */
-    private boolean CheckLeftDiagonal(String[][] board) { // Checks diagonal from the upper left to bottom right
+    private boolean checkLeftDiagonal(String[][] board) {
         if (board[0][0].toLowerCase().compareTo("x") != 0 && board[0][0].toLowerCase().compareTo("o") != 0)
             return false; // Checks for either x or o at beginning of left diagonal
 
@@ -132,12 +135,13 @@ public class TicTacToeBoard {
     }
 
     /**
-     * private helper method to aide in evaluate().
+     * private helper method to aide in evaluate(), checks to see whether entire right to left
+     * diagonal of String[][] board has equal values
      *
      * @param board represents BOARDARRAY reference
      * @return String when the match is required
      */
-    private boolean CheckRightDiagonal(String[][] board) { // Checks diagonal from the upper right to bottom left
+    private boolean checkRightDiagonal(String[][] board) {
         if (board[0][dimension - 1].toLowerCase().compareTo("x") != 0 && board[0][dimension - 1].toLowerCase().compareTo("o") != 0)
             return false; // Checks for either x or o at beginning of right diagonal
 
@@ -149,14 +153,14 @@ public class TicTacToeBoard {
     }
 
     /**
-     * private helper method to aide in evaluate(), lower space complexity and
-     * time complexity for traversal of string
+     * private helper method to aide in evaluate(), determines whether board is
+     * valid for the purpose of evaulate()
      *
      * @param board represents BOARDARRAY reference
      * @return String when the match is required
      */
-    private boolean IsValidBoard(String board) { // Checks validity of board as a Tic-Tac-Toe dimension by dimension
-        if (board == null || !(board instanceof String) || board.length() != dimension * dimension)
+    private boolean isValidBoard(String board) {
+        if (board == null || board.length() != dimension * dimension)
             throw new IllegalArgumentException(); // checks correct String state
 
         int xCount = 0; // number of x values in the string
