@@ -7,6 +7,7 @@ import static org.junit.Assert.assertEquals;
 
 public class TicTacToeBoardTest {
 
+    // ADVANCED AND BOUNDARY TEST CASES
     // UnreachableState cases
     @Test
     public void testUnreachableBoard() { //tests unreachable statement case, and case insensitivity
@@ -121,7 +122,7 @@ public class TicTacToeBoardTest {
         }
     }
 
-
+    // BASIC TESTS BELOW
     // NoWinnerTests
     @Test
     public void testValidBoardNoWinner() { // Tests board without winner
