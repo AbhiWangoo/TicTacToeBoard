@@ -58,6 +58,47 @@ public class TicTacToeBoardTest {
         assertEquals(Evaluation.UnreachableState, boardMultiWinner5.evaluate());
     }
 
+    @Test
+    public void testDoubleXWinRow() { // Tests to see if x wins through a row and a diagonal
+        TicTacToeBoard boardRow1 = new TicTacToeBoard("xoooxoxxx");
+        assertEquals(Evaluation.Xwins, boardRow1.evaluate());
+
+        TicTacToeBoard boardRow2 = new TicTacToeBoard("xooxxxoox");
+        assertEquals(Evaluation.Xwins, boardRow2.evaluate());
+
+        TicTacToeBoard boardRow3 = new TicTacToeBoard("xxxoxooox");
+        assertEquals(Evaluation.Xwins, boardRow3.evaluate());
+
+        TicTacToeBoard boardRow4 = new TicTacToeBoard("ooxoxoxxx");
+        assertEquals(Evaluation.Xwins, boardRow4.evaluate());
+
+        TicTacToeBoard boardRow5 = new TicTacToeBoard("ooxxxxxoo");
+        assertEquals(Evaluation.Xwins, boardRow5.evaluate());
+
+        TicTacToeBoard boardRow6 = new TicTacToeBoard("xxxoxoxoo");
+        assertEquals(Evaluation.Xwins, boardRow6.evaluate());
+    }
+
+    @Test
+    public void testDoubleXWinCol() { // Tests to see if x wins through a column and a diagonal
+        TicTacToeBoard boardCol1Left = new TicTacToeBoard("xooxxoxox");
+        assertEquals(Evaluation.Xwins, boardCol1Left.evaluate());
+
+        TicTacToeBoard boardCol2Left = new TicTacToeBoard("xxooxooxx");
+        assertEquals(Evaluation.Xwins, boardCol2Left.evaluate());
+
+        TicTacToeBoard boardCol3Left = new TicTacToeBoard("xoxoxxoox");
+        assertEquals(Evaluation.Xwins, boardCol3Left.evaluate());
+
+        TicTacToeBoard boardCol1Right = new TicTacToeBoard("xoxxxoxoo");
+        assertEquals(Evaluation.Xwins, boardCol1Right.evaluate());
+
+        TicTacToeBoard boardCol2Right = new TicTacToeBoard("oxxoxoxxo");
+        assertEquals(Evaluation.Xwins, boardCol2Right.evaluate());
+
+        TicTacToeBoard boardCol3Right = new TicTacToeBoard("ooxoxxxox");
+        assertEquals(Evaluation.Xwins, boardCol3Right.evaluate());
+    }
 
     @Test
     public void testBoardEmpty() { // Tests IllegalArgumentException

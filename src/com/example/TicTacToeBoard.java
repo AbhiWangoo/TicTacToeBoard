@@ -6,7 +6,7 @@ import java.util.*;
  * Takes in and evaluates a string representing a tic tac toe board.
  */
 public class TicTacToeBoard {
-    private final String[][] boardArray; // not final in case it needs to be made null
+    private final String[][] BOARDARRAY; // not final in case it needs to be made null
     private static int dimension;
     private String winner;
 
@@ -19,7 +19,7 @@ public class TicTacToeBoard {
         winner = "";
         dimension = 3;
         int stringIndex = 0;
-        boardArray = new String[dimension][dimension];
+        BOARDARRAY = new String[dimension][dimension];
 
 
         if (!IsValidBoard(board))
@@ -27,7 +27,7 @@ public class TicTacToeBoard {
         else {
             for (int i = 0; i < dimension; i++) {
                 for (int j = 0; j < dimension; j++) {
-                    boardArray[i][j] = board.substring(stringIndex, stringIndex + 1);
+                    BOARDARRAY[i][j] = board.substring(stringIndex, stringIndex + 1);
                     stringIndex++;
                 }
             }
@@ -42,36 +42,34 @@ public class TicTacToeBoard {
      */
     public Evaluation evaluate() {
         // Unreachable check
-        if (winner.compareTo("US") == 0 || boardArray == null) {
+        if (winner.compareTo("US") == 0 || BOARDARRAY == null) {
             return Evaluation.UnreachableState;
         }
 
         // Row and column checks
         for (int i = 0; i < 3; i++) {
-            if (CheckRow(boardArray, i)) { // Checks row victory
-                winner += boardArray[i][0];
-            } else if (CheckCol(boardArray, i)) { // Checks column victory
-                winner += boardArray[0][i];
+            if (CheckRow(BOARDARRAY, i)) { // Checks row victory
+                winner += BOARDARRAY[i][0];
+            } else if (CheckCol(BOARDARRAY, i)) { // Checks column victory
+                winner += BOARDARRAY[0][i];
             }
         }
 
         // Diagonals Check
-        if (CheckLeftDiagonal(boardArray))
-            winner = boardArray[0][0];
-        else if (CheckRightDiagonal(boardArray))
-            winner = boardArray[0][dimension - 1];
+        if (CheckLeftDiagonal(BOARDARRAY))
+            winner = BOARDARRAY[0][0];
+        else if (CheckRightDiagonal(BOARDARRAY))
+            winner = BOARDARRAY[0][dimension - 1];
 
         // Conversion of winner variable to Evaluation enum type
+        if(winner.length() > 1) // if multiple winners, its an unreachable state
+            return Evaluation.UnreachableState;
         switch (winner.toLowerCase()) {
             case ("x"):
                 return Evaluation.Xwins;
 
             case ("o"):
                 return Evaluation.Owins;
-
-            case ("xo"):
-            case ("ox"):
-                return Evaluation.UnreachableState;
 
             default:
                 return Evaluation.NoWinner;
@@ -84,7 +82,7 @@ public class TicTacToeBoard {
      * private helper method to aide in evaluate().
      *
      * @param row   represents index for row to check for matching values
-     * @param board represents boardArray reference
+     * @param board represents BOARDARRAY reference
      * @return boolean for a match in the row or column
      */
     private boolean CheckRow(String[][] board, int row) { // check to see if there is a matching row
@@ -102,7 +100,7 @@ public class TicTacToeBoard {
      * private helper method to aide in evaluate().
      *
      * @param col   represents index for column to check for matching values
-     * @param board represents boardArray reference
+     * @param board represents BOARDARRAY reference
      * @return boolean for a match in the row or column
      */
     private boolean CheckCol(String[][] board, int col) { // check to see if there is a matching column
@@ -119,7 +117,7 @@ public class TicTacToeBoard {
     /**
      * private helper method to aide in evaluate().
      *
-     * @param board represents boardArray reference
+     * @param board represents BOARDARRAY reference
      * @return String when the match is required
      */
     private boolean CheckLeftDiagonal(String[][] board) { // Checks diagonal from the upper left to bottom right
@@ -136,7 +134,7 @@ public class TicTacToeBoard {
     /**
      * private helper method to aide in evaluate().
      *
-     * @param board represents boardArray reference
+     * @param board represents BOARDARRAY reference
      * @return String when the match is required
      */
     private boolean CheckRightDiagonal(String[][] board) { // Checks diagonal from the upper right to bottom left
@@ -154,11 +152,11 @@ public class TicTacToeBoard {
      * private helper method to aide in evaluate(), lower space complexity and
      * time complexity for traversal of string
      *
-     * @param board represents boardArray reference
+     * @param board represents BOARDARRAY reference
      * @return String when the match is required
      */
     private boolean IsValidBoard(String board) { // Checks validity of board as a Tic-Tac-Toe dimension by dimension
-        if (board == null || board.length() != dimension * dimension)
+        if (board == null || !(board instanceof String) || board.length() != dimension * dimension)
             throw new IllegalArgumentException(); // checks correct String state
 
         int xCount = 0; // number of x values in the string
